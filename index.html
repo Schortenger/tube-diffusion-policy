@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Tube Diffusion Policy: Reactive Visual-tactile Policy Learning for Contact-rich Manipulation">
+  <meta name="keywords" content="Dexterous Manipulation, Visual-Tactile Policy Learning, Reactive Control">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    Tube Diffusion Policy: Reactive Visual-tactile Policy Learning for Contact-rich Manipulation
+  </title>
+
+  <link rel="icon" type="image/png" href="./static/images/meta.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://kit.fontawesome.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZ38WT2YPD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-QZ38WT2YPD');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <style>
+    section:not(.hero) video {
+      display: block;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+      transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+      contain: layout style paint;
+    }
+    section:not(.hero) video:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22) !important;
+    }
+    section:not(.hero) video.no-lift:hover {
+      transform: scale(1.02) translateY(-4px) !important;
+    }
+    h2.title.is-3 {
+      color: #3578c4;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+    }
+    .method-subtitle {
+      color: #6aa8e8;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: 0.01em;
+      transition: color 0.2s ease;
+      margin-bottom: 1rem !important;
+    }
+    .method-subtitle.is-active {
+      color: #3578c4;
+    }
+    .video-row-two {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 20px;
+    }
+    .video-row-three {
+      max-width: 1360px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .video-row-two > .column {
+      padding: 0;
+    }
+    .video-row-one {
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .video-row-one > .column {
+      padding: 0;
+    }
+    .text-match-two {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .text-match-one {
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+
+  <script src="https://kit.fontawesome.com/19914a84eb.js" crossorigin="anonymous" defer></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+  <script src="./static/js/bulma-carousel.min.js" defer></script>
+  <script src="./static/js/bulma-slider.min.js" defer></script>
+  <script src="./static/js/index.js" defer></script>
+</head>
+
+<body>
+
+<!-- Sidebar Navigation -->
+<section class="hero is-link is-fullheight video" style="overflow: hidden; position:relative;">
+  <video id="hero-teaser" autoplay playsinline muted loop preload="auto"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+    <source src="./static/video/real_jar_adaptation.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+  <!-- Hero head: will stick at the top -->
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-1 publication-title is-size-1-mobile" style="font-size: 5rem;">
+        Tube Diffusion Policy
+      </h1>
+      <h1 class="subtitle is-1 publication-title is-size-4-mobile" style="font-size: 3rem;">
+        Reactive Visual-tactile Policy Learning <br class="is-hidden-mobile"> for Contact-rich Manipulation
+      </h1>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section is-small" id="data-collection">
+  <div class="container is-fluid" style="padding: 0 8%;">
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">Abstract</h2>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        Contact-rich manipulation is central to many everyday human activities, requiring continuous adaptation to contact uncertainty and external disturbances through multi-modal perception, particularly vision and tactile feedback. While imitation learning has shown strong potential for learning complex manipulation behaviors, most existing approaches rely on action chunking, which fundamentally limits their ability to react to unforeseen observations during execution. This limitation becomes especially critical in contact-rich scenarios, where physical uncertainty and high-frequency tactile feedback demand rapid, reactive control. To address this challenge, we propose Tube Diffusion Policy (TDP), a novel reactive visual–tactile policy learning framework that bridges diffusion-based imitation learning with tube-based feedback control. By leveraging the expressive power of generative models, TDP learns an observation-conditioned feedback flow around nominal action chunks, forming an action tube that enables fast and adaptive reactions during execution.
+        We evaluate TDP on the widely used Push-T benchmark and three additional challenging visual–tactile dexterous manipulation tasks. Across all benchmarks, TDP consistently outperforms state-of-the-art imitation learning baselines. Two real-world experiments further validate its robust reactivity under contact uncertainty and external disturbances. Moreover, the step-wise correction mechanism enabled by action tube significantly reduces the required denoising steps, making TDP well suited for real-time, high-frequency feedback control in contact-rich manipulation.
+      </p>
+    </div>
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">Overview</h2>
+    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+      <img src="./static/images/overview.png" alt="Overview of the full pipeline" style="width: 80%; max-width: 100%; height: auto;">
+    </div>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        <strong>Overview of the full pipeline.</strong>
+        We first collect visual-tactile human demonstrations via teleoperation in both simulation and on a physical robot, using a robotic arm equipped with a dexterous hand. Based on these demonstrations, Tube Diffusion Policy (TDP) learns a hybrid action velocity field that combines diffusion-based action generation with streaming conditional feedback flows, forming an action tube that constrains the generated trajectory around the demonstration manifold. This design enables reactive control at every timestep using fresh observations, allowing rapid adaptation to contact uncertainty and external disturbances. Moreover, stepwise correction reduces the required denoising steps and significantly lowers inference latency. We evaluate TDP on three virtual and two physical visual-tactile dexterous manipulation tasks, demonstrating strong performance and consistent gains over state-of-the-art baselines.
+      </p>
+    </div>
+</section>
+
+
+
+<section class="section is-small" id="data-collection">
+  <div class="container is-fluid" style="padding: 0 8%;">
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">Data Collection</h2>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        We developed two teleoperation pipelines. For the real robot, we use a mocap-based hand-tracking teleoperation system; for simulation, we use a VR-based teleoperation setup. Together, these pipelines provide real-time, smooth, stable, and responsive teleoperation for complex manipulation behaviors, enabling high-quality data collection.
+      </p>
+    </div>
+    <div class="columns is-centered video-row-two">
+      <div class="column is-half">
+        <video autoplay controls muted loop playsinline preload="none" width="100%">
+          <source src="./static/video/real_tele.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-half">
+        <video autoplay controls muted loop playsinline preload="none" width="100%">
+          <source src="./static/video/virtual_tele.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small" id="visuotactile">
+  <div class="container is-fluid" style="padding: 0 12%;">
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">Visuotactile Sensing</h2>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        Tube Diffusion Policy enables effective exploitation of high-frequency tactile feedback, allowing the policy to react promptly to contact dynamics and disturbances while preserving stable task execution.
+    </div>
+    <div class="columns is-centered video-row-two">
+      <div class="column is-half">
+        <video autoplay controls muted loop playsinline preload="none" width="100%">
+          <source src="./static/video/realobs.mp4" type="video/mp4">
+        </video>
+        <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4; text-align: center;">Allegro V5 Hand with Digit360 Fingertip Tactile Sensors</p>
+      </div>
+      <div class="column is-half">
+        <video autoplay controls muted loop playsinline preload="none" width="100%">
+          <source src="./static/video/simobs.mp4" type="video/mp4">
+        </video>
+        <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4; text-align: center;">Tesollo DG-5F Hand with Dense Tactile Arrays</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section is-small" id="dexterous-tasks">
+  <div class="container is-fluid" style="padding: 0 12%;">
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">VisualTactile Dexterous Manipulation</h2>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        Tube Diffusion Policy enables real-time, high-frequency feedback control in visual-tactile dexterous manipulation manipulation.
+      </p>
+    </div>
+
+    <div class="columns is-centered video-row-three" style="gap: 16px;">
+      <div class="column" style="padding: 0;">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/stableGrasp.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Stable Grasping (Sim)</p>
+        </div>
+      </div>
+      <div class="column" style="padding: 0;">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/reorientation.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">On-table Reorientation (Sim)</p>
+        </div>
+      </div>
+      <div class="column" style="padding: 0;">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/dish_clean.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Dish Cleaning (Sim)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered video-row-two" style="margin-top: 1.5rem;">
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/real_flip.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">On-table Reorientation (Real)</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/real_jar.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Dish Cleaning (Real)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small" id="comparison">
+  <div class="container is-fluid" style="padding: 0 12%;">
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">Comparison</h2>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        We compare Tube Diffusion Policy with state-of-the-art baselines in both simulated and real-world settings across diverse visual–tactile dexterous manipulation tasks, highlighting its enhanced reactivity under contact uncertainty and external disturbances. 
+      </p>
+    </div>
+
+    <h3 class="method-subtitle has-text-centered is-active">Virtual Visual-Tactile Manipulation</h3>
+
+    <div class="content has-text-justified text-match-two">
+      <p>
+      In stable grasping and on-table reorientation, TDP shows strong reactivity to contact uncertainty, adapting to variations in object geometry and friction. In the dish cleaning task, TDP remains effective with only a few DDIM steps, thanks to the stepwise correction enabled by the action tube. This significantly reduces inference latency and makes it well-suited for real-time feedback control. </p>
+    </div>
+
+    <div style="margin-bottom: 1.5rem;"></div>
+    <div class="columns is-centered video-row-two" style="gap: 20px;">
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/virtual_stablegrasp.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Stable Grasping</p>
+        </div>
+      </div>
+
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/virtual_flip.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">On-table Reorientation</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered video-row-two" style="margin-top: 1.5rem;">
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/virtual_dish.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Dish Cleaning</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="method-subtitle has-text-centered is-active" style="margin-top: 2rem !important;">Real-World Visual-Tactile Manipulation</h3>
+    <div class="content has-text-justified text-match-two">
+      <p>
+      We further evaluate TDP on real-world visual–tactile tasks. TDP achieves high-frequency, closed-loop control with only a few DDIM steps, resulting in stable and responsive behavior. In contrast, DP either generates unstable behaviors with few DDIM steps or relies on open-loop action chunking, leading to less adaptive performance. Under external disturbances, TDP quickly adapts and recovers, while DP fails to respond due to its pre-generated action sequences.
+     </p>
+    </div>
+    
+    <div class="columns is-centered video-row-two">
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/real_flip.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">On-table Reorientation</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/real_flip_dist.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">On-table Reorientation with Disturbance</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered video-row-two" style="margin-top: 1.5rem;">
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/real_jar.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Jar Opening</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="has-text-centered">
+          <video autoplay controls muted loop playsinline preload="none" width="100%">
+            <source src="./static/video/comparison/real_jar_dist.mp4" type="video/mp4">
+          </video>
+          <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">Jar Opening with Disturbance</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small" id="summary-video">
+  <div class="container is-fluid" style="padding: 0 12%;">
+    <h2 class="title is-3 has-text-centered is-size-5-mobile">Summary Video</h2>
+    <div class="content has-text-justified text-match-two">
+      <p>
+        This video summarizes the entire work, including the motivation, full architecture, and a comparison with state-of-the-art imitation learning approaches in both simulation and the real world.
+      </p>
+    </div>
+    <div class="columns is-centered" style="max-width: 1200px; margin-left: auto; margin-right: auto;">
+      <div class="column" style="padding: 0;">
+        <div class="has-text-centered">
+          <div style="position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; border-radius: 10px;">
+            <iframe
+              src="https://drive.google.com/file/d/1A9BTX2IXoP3HYqJyI8LHhFjC5cibyxkm/preview"
+              title="Summary Video"
+              allow="autoplay"
+              allowfullscreen
+              style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;">
+            </iframe>
+          </div>
+          <!-- <p style="margin-top: 0.5rem; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #3578c4;">TDP Comparison Results</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small" id="team">
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title is-3 is-size-4-mobile has-text-centered">Our Team</h2>
+    <div class="container has-text-centered">
+      <div class="is-hidden-mobile">
+        <div class="publication-authors is-flex is-justify-content-center team-desktop-row" style="margin-bottom: 20px;">
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://schortenger.github.io/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/txue.png" alt="Teng Xue">
+              </a>
+            </figure>
+            <span><a href="https://schortenger.github.io/">Teng Xue</a><sup>1,2</sup></span>
+          </div>
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://www.linkedin.com/in/al-ri/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/rigo.png" alt="Alberto Rigo">
+              </a>
+            </figure>
+            <span><a href="https://www.linkedin.com/in/al-ri/">Alberto Rigo</a><sup>3</sup></span>
+          </div>
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://huangbj16.github.io/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/bingjian.jpg" alt="Bingjian Huang">
+              </a>
+            </figure>
+            <span><a href="https://huangbj16.github.io/">Bingjian Huang</a><sup>4</sup></span>
+          </div>
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://autumn9999.github.io/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/jiayi.jpg" alt="Jiayi Shen">
+              </a>
+            </figure>
+            <span><a href="https://autumn9999.github.io/">Jiayi Shen</a><sup>3</sup></span>
+          </div>
+        </div>
+        <div class="publication-authors is-flex is-justify-content-center team-desktop-row" style="margin-bottom: 20px;">
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://zhengtongxu.github.io/website/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/Zhengtong.jpg" alt="Zhengtong Xu">
+              </a>
+            </figure>
+            <span><a href="https://zhengtongxu.github.io/website/">Zhengtong Xu</a><sup>5</sup></span>
+          </div>
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://www.ncolonnese.com/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/Nick.jpg" alt="Nick Colonnese">
+              </a>
+            </figure>
+            <span><a href="https://www.ncolonnese.com/">Nick Colonnese</a><sup>3</sup></span>
+          </div>
+          <div class="author-block has-text-centered has-addons-centered">
+            <figure class="image is-128x128">
+              <a href="https://www.linkedin.com/in/amirhossein-memar/">
+                <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/Amir.jpg" alt="Amir Memar">
+              </a>
+            </figure>
+            <span><a href="https://www.linkedin.com/in/amirhossein-memar/">Amir Memar</a><sup>3</sup></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-evenly is-hidden-tablet team-mobile-authors">
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-96x96">
+            <a href="https://schortenger.github.io/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/txue.png" alt="Teng Xue">
+            </a>
+          </figure>
+          <span><a href="https://schortenger.github.io/">Teng Xue</a><sup>1, 2</sup></span>
+        </div>
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-96x96">
+            <a href="https://www.linkedin.com/in/al-ri/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/rigo.png" alt="Alberto Rigo">
+            </a>
+          </figure>
+          <span><a href="https://www.linkedin.com/in/al-ri/">Alberto Rigo</a><sup>2</sup></span>
+        </div>
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-96x96">
+            <a href="https://huangbj16.github.io/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/bingjian.jpg" alt="Bingjian Huang">
+            </a>
+          </figure>
+          <span><a href="https://huangbj16.github.io/">Bingjian Huang</a><sup>2</sup></span>
+        </div>
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-80x80">
+            <a href="https://autumn9999.github.io/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/jiayi.jpg" alt="Jiayi Shen">
+            </a>
+          </figure>
+          <span><a href="https://autumn9999.github.io/">Jiayi Shen</a><sup>3</sup></span>
+        </div>
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-96x96">
+            <a href="https://zhengtongxu.github.io/website/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/Zhengtong.jpg" alt="Zhengtong Xu">
+            </a>
+          </figure>
+          <span><a href="https://zhengtongxu.github.io/website/">Zhengtong Xu</a><sup>1</sup></span>
+        </div>
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-96x96">
+            <a href="https://www.ncolonnese.com/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/Nick.jpg" alt="Nick Colonnese">
+            </a>
+          </figure>
+          <span><a href="https://www.ncolonnese.com/">Nick Colonnese</a><sup>2</sup></span>
+        </div>
+        <div class="author-block has-text-centered has-addons-centered">
+          <figure class="image is-96x96">
+            <a href="https://www.linkedin.com/in/amirhossein-memar/">
+              <img class="is-rounded" loading="lazy" decoding="async" src="./static/images/Amir.jpg" alt="Amir Memar">
+            </a>
+          </figure>
+          <span><a href="https://www.linkedin.com/in/amirhossein-memar/">Amir Memar</a><sup>2</sup></span>
+        </div>
+      </div>
+
+
+
+      <div class="publication-authors is-flex is-justify-content-center is-align-items-center team-affiliations" style="gap: 40px; margin-top: 20px;">
+        <span class="is-flex is-align-items-center" style="gap: 8px;">
+          <img loading="lazy" decoding="async" src="./static/images/idiap.png" alt="Idiap Research Institute" style="height: 40px;">
+          <span><sup>1</sup>Idiap Research Institute</span>
+        </span>
+        <span class="is-flex is-align-items-center" style="gap: 8px;">
+          <img loading="lazy" decoding="async" src="./static/images/epfl.png" alt="EPFL" style="height: 40px;">
+          <span><sup>2</sup>EPFL</span>
+        </span>
+        <span class="is-flex is-align-items-center" style="gap: 8px;">
+          <img loading="lazy" decoding="async" src="./static/images/meta.png" alt="Meta Reality Labs Research" style="height: 40px;">
+          <span><sup>3</sup>Meta Reality Labs Research</span>
+        </span>
+        <span class="is-flex is-align-items-center" style="gap: 8px;">
+          <img loading="lazy" decoding="async" src="./static/images/Utoronto.png" alt="University of Toronto" style="height: 50px;">
+          <span><sup>4</sup>University of Toronto</span>
+        </span>
+        <span class="is-flex is-align-items-center" style="gap: 8px;">
+          <img loading="lazy" decoding="async" src="./static/images/purdue.png" alt="Purdue University" style="height: 50px;">
+          <span><sup>5</sup>Purdue University</span>
+        </span>
+      </div>
+      <div class="publication-authors">
+        <span class="author-block" style="font-size: 0.9em;">This work was conducted during internships at Meta Reality Labs Research.</span>
+      </div>
+
+</section>
+
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website template modified from <a href="https://nerfies.github.io/">NeRFies</a> and <a
+              href="https://contact-grounded-policy.github.io/">Contact-Grounded Policy</a>.
+          </p>
+          <p>
+            This website is licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+
+</html>
