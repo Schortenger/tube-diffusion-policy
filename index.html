@@ -193,18 +193,20 @@
 <section class="section is-small" id="visuotactile">
   <div class="container is-fluid" style="padding: 0 12%;">
     <h2 class="title is-3 has-text-centered is-size-5-mobile">Methodology</h2>
-    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
-      <img src="./static/images/action_tube.png" alt="Action Tube" style="width: 60%; max-width: 100%; height: auto;">
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <img src="./static/images/action_tube.png" alt="Action Tube" style="width: 65%; max-width: 100%; height: auto;">
     </div>
     <div class="content has-text-justified text-match-two">
       <p>
-      We adopt a dual-time formulation that combines an observation-conditioned streaming process with a multi-step denoising process. The streaming stage, defined along $t_2$, enables fast, reactive control by generating actions at each timestep conditioned on the current observation, producing the orange trajectory. This allows high-frequency closed-loop adaptation during execution.
-
-      However, the streaming flow relies on local linearization, which can introduce drift over time. To compensate for this, we introduce a denoising stage along $t_1$ at the beginning of each action chunk. This stage performs multi-step denoising to generate an initial action that accounts for the full nonlinear system dynamics, shown in red, providing a chunk-level correction.
-
-      The overall process can be interpreted as operating within an \emph{action tube} (dashed boundary) around a nominal trajectory (green). Within this tube, deviations are continuously corrected through observation-conditioned streaming flows, which can be viewed as a sequence of local controllers (illustrated as funnels). Here, $h_t$ denotes the observation history, and $\Delta t$ controls the temporal resolution of the streaming process.
-
-      By combining diffusion-based initialization with streaming-based reactive feedback, TDP achieves robust, high-frequency closed-loop control for contact-rich manipulation.  
+        <strong>Dual-Time Formulation:</strong> We adopt a dual-time formulation that combines an observation-conditioned streaming process with a multi-step denoising process. The streaming stage, defined along $t_2$, enables fast, reactive control by generating actions at each timestep conditioned on the current observation, producing the orange trajectory.
+      
+        However, the streaming flow typically relies on local linearization, which can introduce drift over time. To compensate, we introduce a denoising stage along $t_1$ at the beginning of each action chunk. This performs multi-step denoising to generate an initial action accounting for the full nonlinear system dynamics, shown in red.
+      </p>
+      <p>
+        <strong>Action Tube:</strong> The overall process operates within an <em>action tube</em> (dashed boundary) around a nominal trajectory (green). Within this tube, deviations are continuously corrected through observation-conditioned streaming flows, viewed as a sequence of local controllers (funnels). Here, $h_t$ denotes the observation history, and $\Delta t$ controls the temporal resolution.
+      </p>
+      <p>
+        By combining diffusion-based initialization with streaming-based reactive feedback, Tube Diffusion Policy achieves robust, high-frequency closed-loop control for contact-rich manipulation.
       </p>
     </div>
   </div>
